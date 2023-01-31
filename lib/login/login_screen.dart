@@ -176,9 +176,13 @@ class _LoginScreenState extends State<LoginScreen> implements LoginNavigator {
   }
 
   @override
+
   void navigateToHome(MyUser user) {
     var userProvider = Provider.of<UserProvider>(context, listen: false);
     userProvider.user = user;
+
+  void navigateToHome() {
+
     Navigator.of(context).pushReplacementNamed(HomeScreen.routeNaeme);
   }
 }

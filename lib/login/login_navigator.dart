@@ -8,4 +8,7 @@ abstract class LoginNavigator {
   void showMessage(String message);
 
   void navigateToHome(MyUser user);
+
+  void navigateToHome();
+
 }
