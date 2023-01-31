@@ -1,3 +1,5 @@
+import '../model/my_user.dart';
+
 abstract class LoginNavigator {
   void showLoading();
 
@@ -5,5 +7,8 @@ abstract class LoginNavigator {
 
   void showMessage(String message);
 
+  void navigateToHome(MyUser user);
+
   void navigateToHome();
+
 }

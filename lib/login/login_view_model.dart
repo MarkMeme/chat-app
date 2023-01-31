@@ -20,7 +20,11 @@ class LoginViewModel extends ChangeNotifier {
         navigator.showMessage('Login FAILED');
       } else {
         navigator.hideLoading();
+
+        navigator.navigateToHome(userOpj);
+
         navigator.navigateToHome();
+
       }
       //navigator.showMessage('log in successfully');
     } on FirebaseAuthException catch (e) {

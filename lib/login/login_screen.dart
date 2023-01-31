@@ -4,8 +4,12 @@ import 'package:chat_app/general_functions.dart' as GF;
 import 'package:chat_app/home/home_screen.dart';
 import 'package:chat_app/login/login_navigator.dart';
 import 'package:chat_app/login/login_view_model.dart';
+import 'package:chat_app/provider/user_provider.dart';
 import 'package:chat_app/register/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../model/my_user.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'loginScreen';
@@ -80,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginNavigator {
                       },
                       validator: (text) {
                         final bool emailValid = RegExp(
-                                r"^[a-zA-Z\d.a-zA-Z\d.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            r"^[a-zA-Z\d.a-zA-Z\d.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                             .hasMatch(text!);
                         if (!emailValid) {
                           return 'Enter Valid a Email';
@@ -120,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginNavigator {
                     ElevatedButton(
                         style: const ButtonStyle(
                             backgroundColor:
-                                MaterialStatePropertyAll(Color(0xFF2872A4)),
+                            MaterialStatePropertyAll(Color(0xFF2872A4)),
                             padding: MaterialStatePropertyAll(
                                 EdgeInsets.symmetric(
                                     horizontal: 30, vertical: 10))),
@@ -172,7 +176,13 @@ class _LoginScreenState extends State<LoginScreen> implements LoginNavigator {
   }
 
   @override
+
+  void navigateToHome(MyUser user) {
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.user = user;
+
   void navigateToHome() {
+
     Navigator.of(context).pushReplacementNamed(HomeScreen.routeNaeme);
   }
 }
