@@ -214,7 +214,7 @@ class _RegisterScreenState extends State<RegisterScreen>
   Future<void> validateCheck() async {
     if (formKey.currentState?.validate() == true) {
       //register
-      viewModel.registering(email, password);
+      viewModel.registering(email, password, lastName, firstName, userName);
     }
   }
 

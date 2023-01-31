@@ -4,4 +4,6 @@ abstract class LoginNavigator {
   void hideLoading();
 
   void showMessage(String message);
+
+  void navigateToHome();
 }
