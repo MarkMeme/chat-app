@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chat_app/general_functions.dart' as GF;
 import 'package:chat_app/home/home_screen.dart';
 import 'package:chat_app/login/login_navigator.dart';
@@ -166,7 +168,11 @@ class _LoginScreenState extends State<LoginScreen> implements LoginNavigator {
   void showMessage(String message) {
     GF.showMessage(context, message, (context) {
       Navigator.pop(context);
-      Navigator.of(context).pushReplacementNamed(HomeScreen.routeNaeme);
     }, 'OK');
+  }
+
+  @override
+  void navigateToHome() {
+    Navigator.of(context).pushReplacementNamed(HomeScreen.routeNaeme);
   }
 }
