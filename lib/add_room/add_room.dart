@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:chat_app/add_room/add_room_navigator.dart';
 import 'package:chat_app/add_room/add_room_view_model.dart';
+import 'package:chat_app/general_functions.dart' as GF;
 import 'package:chat_app/model/category.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -67,100 +70,123 @@ class _AddRoomState extends State<AddRoom> implements AddRoomNavigator {
                 ],
               ),
               child: Form(
-                //key: formKey.,
-                child: Column(
-                  //crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Text(
-                      'Create New Room',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                key: formKey,
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      //crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Text(
+                          'Create New Room',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Image.asset('assets/images/group.png'),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          onChanged: (title) {
+                            roomTitle = title;
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Enter Room Name',
+                            helperStyle: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black54),
+                          ),
+                          validator: (text) {
+                            if (text == null || text.trim().isEmpty) {
+                              return 'Please Enter Room Title';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        DropdownButton<Category>(
+                            alignment: Alignment.center,
+                            autofocus: true,
+                            value: selectedItem,
+                            style: const TextStyle(
+                                fontSize: 16.5,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            items: categoryList
+                                .map((category) => DropdownMenuItem<Category>(
+                                    value: category,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(category.title),
+                                        SizedBox(
+                                          width: 33,
+                                        ),
+                                        Image.asset(category.image)
+                                      ],
+                                    )))
+                                .toList(),
+                            onChanged: (newCategory) {
+                              if (newCategory == null) return;
+                              selectedItem = newCategory;
+                              setState(() {});
+                            }),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        TextFormField(
+                          onChanged: (description) {
+                            roomDescription = description;
+                          },
+                          validator: (text) {
+                            if (text == null || text.trim().isEmpty) {
+                              return 'Please Enter Room Description';
+                            } else {
+                              return null;
+                            }
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Enter Room Description',
+                            helperStyle: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black54),
+                          ),
+                          maxLines: 4,
+                          minLines: 3,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                            style: const ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Color(0xFF2872A4)),
+                                padding: MaterialStatePropertyAll(
+                                    EdgeInsets.symmetric(
+                                        horizontal: 30, vertical: 10))),
+                            onPressed: () {
+                              validateCheck();
+                            },
+                            child: const Text(
+                              "Add Room",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            )),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Image.asset('assets/images/group.png'),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      onChanged: (title) {
-                        roomTitle = title;
-                      },
-                      decoration: const InputDecoration(
-                        hintText: 'Enter Room Name',
-                        helperStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black54),
-                      ),
-                      validator: (text) {
-                        if (text == null || text.trim().isEmpty) {
-                          return 'Please Enter Room Title';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    DropdownButton<Category>(
-                        alignment: Alignment.center,
-                        autofocus: true,
-                        value: selectedItem,
-                        style: const TextStyle(
-                            fontSize: 16.5,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                        items: categoryList
-                            .map((category) => DropdownMenuItem<Category>(
-                                value: category,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(category.title),
-                                    SizedBox(
-                                      width: 33,
-                                    ),
-                                    Image.asset(category.image)
-                                  ],
-                                )))
-                            .toList(),
-                        onChanged: (newCategory) {
-                          if (newCategory == null) return;
-                          selectedItem = newCategory;
-                          setState(() {});
-                        }),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    TextFormField(
-                      onChanged: (description) {
-                        roomDescription = description;
-                      },
-                      validator: (text) {
-                        if (text == null || text.trim().isEmpty) {
-                          return 'Please Enter Room Description';
-                        } else {
-                          return null;
-                        }
-                      },
-                      decoration: const InputDecoration(
-                        hintText: 'Enter Room Description',
-                        helperStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black54),
-                      ),
-                      maxLines: 4,
-                      minLines: 3,
-                    )
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -168,5 +194,31 @@ class _AddRoomState extends State<AddRoom> implements AddRoomNavigator {
         ],
       ),
     );
+  }
+
+  Future<void> validateCheck() async {
+    if (formKey.currentState?.validate() == true) {
+      viewModel.addRoom(roomTitle, roomDescription, selectedItem.id);
+    } else {
+      return;
+    }
+  }
+
+  @override
+  void hideLoading() {
+    GF.hideLoading(context);
+  }
+
+  @override
+  void showLoading() {
+    GF.showLoading(context, 'Loading...');
+  }
+
+  @override
+  void showMessage(String message) {
+    GF.showMessage(context, message, (context) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+    }, 'OK');
   }
 }

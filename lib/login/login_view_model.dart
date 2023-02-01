@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chat_app/database/database_usils.dart';
 import 'package:chat_app/login/login_navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,9 +22,7 @@ class LoginViewModel extends ChangeNotifier {
         navigator.showMessage('Login FAILED');
       } else {
         navigator.hideLoading();
-
         navigator.navigateToHome(userOpj);
-
       }
       //navigator.showMessage('log in successfully');
     } on FirebaseAuthException catch (e) {
