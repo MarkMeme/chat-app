@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:chat_app/general_functions.dart' as GF;
-import 'package:chat_app/home/home_screen.dart';
 import 'package:chat_app/login/login_navigator.dart';
 import 'package:chat_app/login/login_view_model.dart';
 import 'package:chat_app/provider/user_provider.dart';
@@ -180,9 +179,5 @@ class _LoginScreenState extends State<LoginScreen> implements LoginNavigator {
   void navigateToHome(MyUser user) {
     var userProvider = Provider.of<UserProvider>(context, listen: false);
     userProvider.user = user;
-
-  void navigateToHome() {
-
-    Navigator.of(context).pushReplacementNamed(HomeScreen.routeNaeme);
   }
 }
