@@ -9,6 +9,4 @@ abstract class LoginNavigator {
 
   void navigateToHome(MyUser user);
 
-  void navigateToHome();
-
 }
