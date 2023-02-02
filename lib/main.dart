@@ -1,4 +1,5 @@
-import 'package:chat_app/add_room/add_room.dart';
+import 'package:chat_app/add_room/add_room_screen.dart';
+import 'package:chat_app/chat/chat_screen.dart';
 import 'package:chat_app/home/home_screen.dart';
 import 'package:chat_app/login/login_screen.dart';
 import 'package:chat_app/provider/user_provider.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
         RegisterScreen.routeName: (context) => RegisterScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),
         HomeScreen.routeNaeme: (context) => HomeScreen(),
-        AddRoom.routeName: (context) => AddRoom()
+        AddRoom.routeName: (context) => AddRoom(),
+        ChatScreen.routeName: (context) => ChatScreen(),
       },
       initialRoute: userProvider.firebaseUser == null
           ? LoginScreen.routeName
