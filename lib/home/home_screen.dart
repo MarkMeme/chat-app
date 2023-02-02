@@ -1,8 +1,9 @@
-import 'package:chat_app/add_room/add_room.dart';
+import 'package:chat_app/add_room/add_room_screen.dart';
 import 'package:chat_app/add_room/room_widget.dart';
 import 'package:chat_app/database/database_usils.dart';
 import 'package:chat_app/home/home_navigator.dart';
 import 'package:chat_app/home/home_view_model.dart';
+import 'package:chat_app/login/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +43,15 @@ class _HomeScreenState extends State<HomeScreen> implements HomeNavigator {
           Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
+              leading: InkWell(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(
+                        context, LoginScreen.routeName);
+                  },
+                  child: const Icon(
+                    Icons.output_rounded,
+                    size: 25,
+                  )),
               title: const Text('Home',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               centerTitle: true,

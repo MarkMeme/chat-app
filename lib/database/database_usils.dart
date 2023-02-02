@@ -1,3 +1,4 @@
+import 'package:chat_app/model/message.dart';
 import 'package:chat_app/model/my_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -8,9 +9,9 @@ class DatabaseUsils {
     return FirebaseFirestore.instance
         .collection(MyUser.collectionNanme)
         .withConverter<MyUser>(
-            fromFirestore: (snapshot, options) =>
-                MyUser.fromJson(snapshot.data()!),
-            toFirestore: (user, options) => user.toJson());
+        fromFirestore: (snapshot, options) =>
+            MyUser.fromJson(snapshot.data()!),
+        toFirestore: (user, options) => user.toJson());
   }
 
   static CollectionReference<Room> getRoomCollection() {
@@ -20,6 +21,17 @@ class DatabaseUsils {
             fromFirestore: (snapshot, options) =>
                 Room.fromJson(snapshot.data()!),
             toFirestore: (room, options) => room.toJson());
+  }
+
+  static CollectionReference<Message> getMessageCollection(String roomId) {
+    return FirebaseFirestore.instance
+        .collection(Room.collectionName)
+        .doc(roomId)
+        .collection(Message.collectionName)
+        .withConverter<Message>(
+            fromFirestore: (snapshot, options) =>
+                Message.fromJson(snapshot.data()!),
+            toFirestore: (message, options) => message.toJson());
   }
 
   static Future<void> registerUser(MyUser user) async {
@@ -39,5 +51,22 @@ class DatabaseUsils {
 
   static Stream<QuerySnapshot<Room>> getRooms() {
     return getRoomCollection().snapshots();
+  }
+
+  static Future<void> insertMessage(Message message) {
+    var messageCollection = getMessageCollection(message.roomId);
+    var docRef = messageCollection.doc();
+    message.messageId = docRef.id;
+    return docRef.set(message);
+  }
+
+  static Stream<QuerySnapshot<Message>> getMessageFromFirebase(String roomId) {
+    return getMessageCollection(roomId)
+        .orderBy('date_time', descending: true)
+        .snapshots();
+  }
+
+  static deleteMessageFromFirebase(String roomId, String messageId) {
+    return getMessageCollection(roomId).doc(messageId).delete();
   }
 }
