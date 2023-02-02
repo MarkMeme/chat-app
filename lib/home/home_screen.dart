@@ -4,6 +4,7 @@ import 'package:chat_app/database/database_usils.dart';
 import 'package:chat_app/home/home_navigator.dart';
 import 'package:chat_app/home/home_view_model.dart';
 import 'package:chat_app/login/login_screen.dart';
+import 'package:chat_app/provider/user_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeNavigator {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<UserProvider>(context);
     return ChangeNotifierProvider(
       create: (context) => viewModel,
       child: Stack(
@@ -45,6 +47,8 @@ class _HomeScreenState extends State<HomeScreen> implements HomeNavigator {
             appBar: AppBar(
               leading: InkWell(
                   onTap: () {
+                    provider.firebaseUser = null;
+                    provider.user = null;
                     Navigator.pushReplacementNamed(
                         context, LoginScreen.routeName);
                   },
@@ -62,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeNavigator {
               onPressed: () {
                 Navigator.pushNamed(context, AddRoom.routeName);
               },
-              child: Icon(
+              child: const Icon(
                 Icons.add,
                 size: 30,
               ),
@@ -85,10 +89,10 @@ class _HomeScreenState extends State<HomeScreen> implements HomeNavigator {
                   return GridView.builder(
                     itemCount: roomsList?.length ?? 0,
                     gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 8,
-                            crossAxisSpacing: 8),
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 8,
+                        crossAxisSpacing: 8),
                     itemBuilder: (context, index) {
                       return RoomWidget(room: roomsList![index]);
                     },
