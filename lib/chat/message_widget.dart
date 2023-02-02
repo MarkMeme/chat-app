@@ -105,7 +105,7 @@ class _SendMessageState extends State<SendMessage> {
     showModalBottomSheet(
         builder: (builder) {
           return Container(
-            height: 250ch.0,
+            height: 250.0,
             color: Colors.transparent, //could change this to Color(0xFF737373),
             //so you don't have to change MaterialApp canvasColor
             child: Container(
